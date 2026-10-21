@@ -185,14 +185,21 @@ def carga_temas(ruta: Path) -> dict:
             "excluir": [normaliza(t) for t in datos.get("excluir", [])]}
 
 
+def contiene(texto: str, termino: str) -> bool:
+    """Los términos cortos (hasta cuatro letras) se buscan como palabra entera: «mica» no debe saltar con «America»."""
+    if len(termino) <= 4:
+        return re.search(r"(?<![a-z0-9])" + re.escape(termino) + r"(?![a-z0-9])", texto) is not None
+    return termino in texto
+
+
 def pasa_temas(entrada: dict, fuente: dict, temas: dict) -> bool:
     texto = normaliza(entrada["titulo"] + " " + entrada["resumen"])
-    if any(t in texto for t in temas["excluir"]):
+    if any(contiene(texto, t) for t in temas["excluir"]):
         return False
     claves = [normaliza(k) for k in fuente.get("palabras_clave", [])]
-    if claves and not any(k in texto for k in claves):
+    if claves and not any(contiene(texto, k) for k in claves):
         return False
-    if temas["incluir"] and not any(t in texto for t in temas["incluir"]):
+    if temas["incluir"] and not any(contiene(texto, t) for t in temas["incluir"]):
         return False
     return True
 
