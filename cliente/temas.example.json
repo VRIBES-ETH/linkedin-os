@@ -1,0 +1,11 @@
+{
+  "_nota": "Copia este fichero como cliente/temas.json. El radar solo deja pasar lo que contiene alguna palabra de `incluir` (vacío = todo pasa) y descarta lo que contiene alguna de `excluir`. Sin tildes ni mayúsculas: el radar normaliza.",
+  "incluir": [
+    "tokeniz", "stablecoin", "mica", "activos digitales", "digital assets", "crypto-asset",
+    "criptoactivo", "dlt", "blockchain", "cbdc", "euro digital", "custodia", "custody",
+    "pagos", "payments", "infraestructura financiera", "settlement", "liquidacion"
+  ],
+  "excluir": [
+    "nombramiento", "appointment", "webinar", "premio", "award"
+  ]
+}

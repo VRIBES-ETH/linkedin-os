@@ -1,0 +1,27 @@
+{
+  "description": "Guardias deterministas del plugin: lint de español peninsular en las zonas de contenido y bloqueo del borrado en Publer.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/es-content-lint.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|mcp__publer__delete_posts",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/publer-guard.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
