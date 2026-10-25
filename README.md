@@ -1,6 +1,8 @@
 # linkedin-os
 
-**Know what to post before anyone else does.** A verified-source radar for finance and tech executives, running inside Claude Code.
+![linkedin-os: know what to post, every morning](docs/banner.png)
+
+**You don't need to be first. You need to know what to post.** A verified-source radar for finance and tech executives, running inside Claude Code.
 
 Every morning `/radar` reads what regulators, central banks, issuers and research houses have actually published in the last 48 hours, filters it by your topics, and hands you three angles with the primary source attached. No trade press, no aggregators, no "I saw this on LinkedIn".
 
