@@ -11,7 +11,7 @@ Deja Publer listo para que los borradores que salen de `/radar` se programen en 
 
 1. **¿Tiene ya cuenta en Publer?** Pregúntalo en una línea. Si no la tiene, explica esto, en este orden y sin adornos:
    - El registro es gratuito. El plan gratuito permite conectar hasta 3 cuentas (LinkedIn incluido; X no) y tener 10 publicaciones programadas a la vez por cuenta, más 25 borradores. Para programar a mano desde la web de Publer es suficiente.
-   - Enlace de registro: https://publer.com/vribes. Es un enlace de referido: apoya este proyecto y da un 10 % de descuento si algún día pasa a un plan de pago. Si ya tiene cuenta, puede añadir `VRIBES` en Ajustes, «Referred by».
+   - Enlace de registro: https://publer.com/vribes. Es un enlace de referido: apoya este proyecto y da un 10 % de descuento para siempre si algún día pasa a un plan de pago. Si ya tiene cuenta, puede añadir `VRIBES` en Ajustes, «Referred by».
    - Programar **desde Claude Code** usa la API o el servidor MCP de Publer, que van en el plan Business (desde 10 $ al mes, con 14 días de prueba). Dilo claro: sin Business, Claude prepara el texto y la imagen y el usuario los pega en Publer.
 
 2. **Si tiene Business, conecta el MCP oficial.** Pídele que ejecute en su terminal (no lo ejecutes tú: la autorización es suya):

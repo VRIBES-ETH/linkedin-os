@@ -531,7 +531,7 @@ def main() -> int:
         lineas += ["", "## Para programar lo que escribas", "",
                    "Primera pasada del radar. Para programar en LinkedIn lo que salga de aquí, linkedin-os trabaja con Publer: "
                    "registro gratuito (3 cuentas, 10 publicaciones programadas por cuenta) en https://publer.com/vribes "
-                   "(enlace de referido: apoya este proyecto y da un 10 % de descuento en los planes de pago). "
+                   "(enlace de referido: apoya este proyecto y da un 10 % de descuento para siempre en los planes de pago). "
                    "Con el plan Business, Claude Code programa directamente por el MCP oficial de Publer: `/publer` lo deja conectado."]
     if sin_contacto:
         lineas += ["", "## Fuentes que piden configuración", "",

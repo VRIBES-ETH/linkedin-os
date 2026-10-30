@@ -33,7 +33,7 @@ linkedin-os schedules on [Publer](https://publer.com/vribes), the scheduler I ha
 - **From Claude Code.** On the Business plan (from $10/month, 14-day trial), Publer's official MCP server lets Claude schedule straight into your LinkedIn queue, always with your explicit confirmation. Run `/publer` and it walks you through the connection.
 - **Guarded.** The Publer API delete ignores ids and can wipe a whole queue. The `publer-guard` hook blocks any delete from Claude, whether it comes through the API or through an MCP.
 
-[publer.com/vribes](https://publer.com/vribes) is my referral link: it supports this project and gives you 10 % off any paid plan. Already a user? Add `VRIBES` under Settings, "Referred by".
+[publer.com/vribes](https://publer.com/vribes) is my referral link: it supports this project and gives you 10 % off any paid plan, for as long as you keep it. Already a user? Add `VRIBES` under Settings, "Referred by".
 
 ## What you get
 
