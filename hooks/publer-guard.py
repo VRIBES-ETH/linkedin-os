@@ -8,8 +8,8 @@ la regla escrita se convirtiera en un hook. Desde entonces el borrado es una acc
 exclusivamente humana, en la interfaz de Publer.
 
 Bloquea (exit 2) cualquier comando Bash que contenga a la vez «publer» y «delete», en
-cualquier combinación de mayúsculas, y la herramienta MCP `mcp__publer__delete_posts` si
-alguna vez estuviera registrada. Un falso positivo cuesta reformular un comando; un falso
+cualquier combinación de mayúsculas, y cualquier herramienta de un MCP de Publer (el oficial,
+https://mcp.publer.com, u otro) cuyo nombre indique borrado: delete, remove, destroy, trash. Un falso positivo cuesta reformular un comando; un falso
 negativo cuesta la cola entera.
 
 Lee el payload JSON del hook por stdin. Solo biblioteca estándar.
@@ -35,7 +35,7 @@ def main() -> int:
     except Exception:  # noqa: BLE001
         return 0
     tool = data.get("tool_name") or ""
-    if tool == "mcp__publer__delete_posts":
+    if tool.startswith("mcp__") and "publer" in tool.lower() and re.search(r"delete|remove|destroy|trash|borra", tool.lower()):
         sys.stderr.write(MENSAJE)
         return 2
     if tool != "Bash":

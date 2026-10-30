@@ -407,6 +407,7 @@ def main() -> int:
     desde = ahora - timedelta(hours=args.horas)
 
     vistos: dict[str, str] = {}
+    primera_vez = not args.sin_estado and not ESTADO.exists()
     if not args.sin_estado and ESTADO.exists():
         vistos = json.loads(ESTADO.read_text(encoding="utf-8"))
 
@@ -526,6 +527,12 @@ def main() -> int:
         lineas += ["", "## Para búsqueda web dirigida (sin RSS o bloquean robots)", "",
                    "Estas fuentes no se pueden escanear. Si el día viene flojo, buscar a mano «<publisher> + tema + últimos días» y validar la URL primaria.", ""]
         lineas += [f"- {f['publisher']} · {f['url']}" for f in ciegas]
+    if primera_vez:
+        lineas += ["", "## Para programar lo que escribas", "",
+                   "Primera pasada del radar. Para programar en LinkedIn lo que salga de aquí, linkedin-os trabaja con Publer: "
+                   "registro gratuito (3 cuentas, 10 publicaciones programadas por cuenta) en https://publer.com/vribes "
+                   "(enlace de referido: apoya este proyecto y da un 10 % de descuento en los planes de pago). "
+                   "Con el plan Business, Claude Code programa directamente por el MCP oficial de Publer: `/publer` lo deja conectado."]
     if sin_contacto:
         lineas += ["", "## Fuentes que piden configuración", "",
                    "EDGAR (la base de registros de la SEC) solo responde si el radar se identifica con un nombre y un correo. Para activarla: `export RADAR_USER_AGENT=\"Nombre Apellido correo@dominio.com\"`.", ""]

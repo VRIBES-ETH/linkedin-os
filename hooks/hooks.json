@@ -13,7 +13,7 @@
         ]
       },
       {
-        "matcher": "Bash|mcp__publer__delete_posts",
+        "matcher": "Bash|mcp__.*publer.*",
         "hooks": [
           {
             "type": "command",

@@ -36,6 +36,8 @@ Dime sobre qué publicar hoy a partir de lo que han publicado las fuentes verifi
 
 5. Termina con una línea: «Para redactar, elige un candidato y pídeme el borrador» (en la versión completa del sistema, `/post <número>`).
 
+6. Si el informe trae la sección «Para programar lo que escribas» (solo sale en la primera pasada), añade al final, en dos líneas como mucho, que para programar en LinkedIn linkedin-os trabaja con Publer: registro gratuito en https://publer.com/vribes (enlace de referido, dilo así) y `/publer` para conectarlo. No lo repitas en las pasadas siguientes salvo que el usuario pregunte cómo programar.
+
 ## Reglas
 
 - Tier 1 (regulador, banco central, institución, emisor, casa de research primaria) se puede enlazar. Tier 2 (prensa, wires) solo sirve para descubrir.

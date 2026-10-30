@@ -1,12 +1,12 @@
 # Publer · incidentes conocidos de la API
 
-Reglas aprendidas operando la API de Publer durante meses sobre varias cuentas. Cada una costó al menos un post mal programado, un duplicado o una cola vacía. El MCP del plugin ya aplica las que se pueden automatizar; las demás son disciplina de uso. Léelo entero antes de programar.
+Reglas aprendidas operando la API de Publer durante meses sobre varias cuentas. Cada una costó al menos un post mal programado, un duplicado o una cola vacía. Valen igual para la API y para el MCP oficial de Publer (https://mcp.publer.com, plan Business); `/publer` explica cómo conectarlo. Léelo entero antes de programar.
 
 ## 1. El borrado por API vacía la cola entera
 
 `DELETE /api/v1/posts` borra TODOS los posts del workspace (programados y borradores) cuando no reconoce los ids. Basta un parámetro mal nombrado (`ids[]` en vez de `post_ids[]`) para que ignore el filtro y arrase la cola. No hay papelera ni vuelta atrás; lo ya publicado en LinkedIn sobrevive, pero el registro en Publer se pierde.
 
-**Regla:** nunca borrar por API. El MCP del plugin no tiene herramienta de borrado y no se le añade. Retirar un post es una acción humana en la interfaz de Publer.
+**Regla:** nunca borrar por API ni por MCP. El hook `publer-guard` bloquea cualquier comando o herramienta de Publer que borre. Retirar un post es una acción humana en la interfaz de Publer.
 
 ## 2. Sustituir un post es crear uno nuevo un minuto después
 
