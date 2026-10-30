@@ -466,8 +466,9 @@
       "uso": "enlazable",
       "palabras_clave": [],
       "activo": true,
-      "nota": "sin RSS: el radar vigila la página y avisa de enlaces nuevos (la primera pasada solo fija la referencia)",
-      "watch_url": "https://www.circle.com/sitemap.xml"
+      "nota": "sin RSS: el radar vigila la página y avisa de enlaces nuevos (la primera pasada solo fija la referencia) | 2026-10-30: el sitemap es de todo el sitio; solo el blog en inglés (sin producto ni traducciones)",
+      "watch_url": "https://www.circle.com/sitemap.xml",
+      "url_include": "^https://www\\.circle\\.com/blog/"
     },
     {
       "id": "coinbase_institutional",

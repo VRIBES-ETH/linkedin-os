@@ -1,5 +1,5 @@
 ---
-description: Escanea las fuentes verificadas y propone sobre qué publicar hoy (3 ángulos con fuente primaria)
+description: Escanea las fuentes verificadas y las casas de research (informes con PDF) y propone sobre qué publicar hoy (3 ángulos con fuente primaria)
 allowed-tools: Bash, Read, WebFetch
 ---
 
@@ -23,11 +23,14 @@ Dime sobre qué publicar hoy a partir de lo que han publicado las fuentes verifi
 
    Si la cabecera del informe dice que se han usado los temas de ejemplo, ofrécele al terminar crear `~/.linkedin-os/temas.json` con sus temas (misma estructura que `${CLAUDE_PLUGIN_ROOT}/cliente/temas.example.json`) para que el radar de mañana filtre por lo suyo.
 
+   La sección «Informes y research» va primero: informes, papers y estudios recién publicados, con el enlace directo al PDF cuando la página lo trae. Un informe de tier 1 que encaje con los temas del usuario es el mejor candidato del día: casi nadie lo ha leído todavía y da cifras propias. Antes de proponerlo, abre la página o el PDF con WebFetch y saca de ahí el hecho; nunca lo deduzcas del título.
+
 3. Elige como máximo **tres candidatos** y, para cada uno, propón en este orden:
    - **Hecho** (una frase, con la fuente primaria enlazada; si el candidato es tier 2, localiza la fuente primaria con WebFetch antes de proponerlo y, si no existe, descártalo).
    - **Ángulo del cliente**: qué puede decir que nadie más en su sector dirá, apoyado en su experiencia declarada (kit o respuesta del usuario).
    - **Por qué hoy**: qué lo hace oportuno esta semana y no dentro de un mes.
    - **Formato sugerido**: post, carrusel o comentario anclado (según el router de formatos).
+   - Si es un informe, añade el enlace al PDF para que el usuario lo descargue.
 
 4. No inventes cifras: solo las que aparecen en la fuente. Marca como «pendiente de verificar» cualquier dato que el titular sugiera pero el texto no sostenga.
 
