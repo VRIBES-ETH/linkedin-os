@@ -1,0 +1,14 @@
+{
+  "name": "linkedin-os",
+  "owner": { "name": "Víctor Ribes" },
+  "metadata": {
+    "description": "Verified-source radar for finance and tech executives, inside Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "linkedin-os",
+      "source": "./",
+      "description": "What regulators, central banks, issuers and research houses published in the last 48 hours, filtered by your topics, with three angles and the primary source attached."
+    }
+  ]
+}

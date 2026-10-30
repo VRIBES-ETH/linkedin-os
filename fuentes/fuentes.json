@@ -109,11 +109,12 @@
       "tier": 1,
       "categoria": "regulacion_eu",
       "metodo": "rss",
-      "url": "https://www.esma.europa.eu/press-news/esma-news/rss.xml",
+      "url": "https://www.esma.europa.eu/rss.xml",
       "idioma": "en",
       "uso": "enlazable",
       "palabras_clave": [],
-      "activo": true
+      "activo": true,
+      "nota": "2026-10-30: la URL anterior devuelve HTML; el feed nuevo no trae fecha, el radar lo trata como «nuevo desde la última pasada»"
     },
     {
       "id": "eu_fisma_news",
@@ -272,16 +273,17 @@
       "activo": true
     },
     {
-      "id": "bis_all_categories",
-      "publisher": "BIS",
+      "id": "bis_cbspeeches",
+      "publisher": "BIS (discursos de bancos centrales)",
       "tier": 1,
       "categoria": "regulacion_global",
       "metodo": "rss",
-      "url": "https://www.bis.org/doclist/rss_all_categories.rss",
+      "url": "https://www.bis.org/doclist/cbspeeches.rss",
       "idioma": "en",
       "uso": "enlazable",
       "palabras_clave": [],
-      "activo": true
+      "activo": true,
+      "nota": "2026-10-30: el feed rss_all_categories devuelve 404; se sustituye por los discursos de bancos centrales que publica el BIS"
     },
     {
       "id": "bde_noticias",
@@ -619,12 +621,12 @@
       "tier": 1,
       "categoria": "research_cripto",
       "metodo": "watch",
-      "url": "https://tokenterminal.com/resources/crypto-research",
+      "url": "https://tokenterminal.com/resources",
       "idioma": "en",
       "uso": "enlazable",
       "palabras_clave": [],
       "activo": true,
-      "nota": "sin RSS: el radar vigila la página y avisa de enlaces nuevos (la primera pasada solo fija la referencia)"
+      "nota": "2026-10-30: la URL anterior redirige con 308 a /resources"
     },
     {
       "id": "amberdata_research",
@@ -866,13 +868,15 @@
       "publisher": "Elliptic",
       "tier": 1,
       "categoria": "seguridad_compliance",
-      "metodo": "rss",
-      "url": "https://www.elliptic.co/blog/rss.xml",
+      "metodo": "watch",
+      "url": "https://www.elliptic.co/insights/",
       "idioma": "en",
       "uso": "enlazable",
       "palabras_clave": [],
       "activo": true,
-      "nota": ""
+      "nota": "2026-10-30: Elliptic retiró el RSS (404); el radar vigila la página de insights",
+      "url_include": "/insights/[a-z0-9-]+/?$",
+      "url_exclude": "/insights/page/"
     },
     {
       "id": "hacken_research",

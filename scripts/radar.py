@@ -12,6 +12,11 @@ Uso:
     python3 scripts/radar.py --horas 24 --salida /ruta/radar.md
     python3 scripts/radar.py --sin-temas          # sin filtro de palabras clave
     python3 scripts/radar.py --sin-estado         # ignora y no actualiza vistos.json
+
+Los temas y el estado viven fuera del plugin, en ~/.linkedin-os/ (o en la carpeta que
+indique LINKEDIN_OS_HOME), para que sobrevivan a las actualizaciones: temas.json,
+radar-AAAA-MM-DD.md, vistos.json y vigilancia.json. Sin temas.json propio se usan los
+temas de ejemplo (`cliente/temas.example.json`).
 """
 from __future__ import annotations
 
@@ -32,13 +37,15 @@ from urllib.parse import urljoin, urlparse
 
 RAIZ = Path(__file__).resolve().parent.parent
 FUENTES = RAIZ / "fuentes" / "fuentes.json"
-TEMAS = RAIZ / "cliente" / "temas.json"
-ESTADO = RAIZ / "estado" / "vistos.json"
-ESTADO_WATCH = RAIZ / "estado" / "vigilancia.json"
+DATOS = Path(os.environ.get("LINKEDIN_OS_HOME") or Path.home() / ".linkedin-os").expanduser()
+TEMAS_EJEMPLO = RAIZ / "cliente" / "temas.example.json"
+ESTADO = DATOS / "vistos.json"
+ESTADO_WATCH = DATOS / "vigilancia.json"
 UA_NAVEGADOR = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 TERMINOS_NAVEGACION = ("/tag/", "/tags/", "/category/", "/categories/", "/author/", "/page/", "/login", "/signup", "/privacy", "/terms", "/contact", "/about", "/careers", "/pricing", "/search")
 MAX_ENLACES_WATCH = 150
-UA = os.environ.get("RADAR_USER_AGENT", "linkedin-os radar/0.1")  # la SEC exige nombre y correo de contacto en el user agent
+UA = os.environ.get("RADAR_USER_AGENT", "linkedin-os radar/0.1")
+UA_CON_CONTACTO = "@" in UA  # la SEC solo responde a un user agent con nombre y correo de contacto
 TIMEOUT = 15
 RETENCION_DIAS = 45
 
@@ -62,14 +69,22 @@ def parsea_fecha(valor: str | None) -> datetime | None:
         d = datetime.fromisoformat(valor.replace("Z", "+00:00"))
         return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
     except ValueError:
-        return None
+        pass
+    for formato in ("%A, %B %d, %Y - %H:%M", "%B %d, %Y - %H:%M", "%d %B %Y"):  # FCA: «Friday, October 30, 2026 - 09:00»
+        try:
+            return datetime.strptime(valor, formato).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+    return None
 
 
 def texto_de(nodo, *nombres: str) -> str | None:
-    for hijo in nodo:
-        etiqueta = hijo.tag.split("}")[-1]
-        if etiqueta in nombres:
-            if etiqueta == "link" and hijo.get("href"):
+    """Primer valor por orden de preferencia de las etiquetas, no por orden en el feed (el Banco de Inglaterra pone guid antes que link)."""
+    for nombre in nombres:
+        for hijo in nodo:
+            if hijo.tag.split("}")[-1] != nombre:
+                continue
+            if nombre == "link" and hijo.get("href"):
                 return hijo.get("href")
             if hijo.text and hijo.text.strip():
                 return hijo.text.strip()
@@ -89,7 +104,7 @@ def parsea_feed(cuerpo: bytes) -> list[dict]:
         resumen = texto_de(nodo, "description", "summary", "content") or ""
         resumen = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", resumen))).strip()
         titulo = html.unescape(titulo) if titulo else titulo
-        if titulo and enlace:
+        if titulo and enlace and enlace.startswith("http"):
             entradas.append({"titulo": titulo, "url": enlace, "fecha": fecha, "resumen": resumen[:400]})
     return entradas
 
@@ -177,6 +192,13 @@ def vigila(fuente: dict) -> tuple[dict, list[dict] | None, str | None]:
         return fuente, None, f"{type(exc).__name__}: {str(exc)[:80]}"
 
 
+def ruta_temas() -> Path:
+    for ruta in (DATOS / "temas.json", RAIZ / "cliente" / "temas.json", TEMAS_EJEMPLO):
+        if ruta.exists():
+            return ruta
+    return TEMAS_EJEMPLO
+
+
 def carga_temas(ruta: Path) -> dict:
     if not ruta.exists():
         return {"incluir": [], "excluir": []}
@@ -209,7 +231,7 @@ def main() -> int:
     p.add_argument("--horas", type=int, default=48)
     p.add_argument("--salida", type=Path)
     p.add_argument("--fuentes", type=Path, default=FUENTES)
-    p.add_argument("--temas", type=Path, default=TEMAS)
+    p.add_argument("--temas", type=Path, default=None, help="por defecto ~/.linkedin-os/temas.json o, si no existe, los temas de ejemplo")
     p.add_argument("--max-por-fuente", type=int, default=5)
     p.add_argument("--sin-temas", action="store_true", help="no filtra por cliente/temas.json")
     p.add_argument("--sin-estado", action="store_true", help="no lee ni escribe estado/vistos.json")
@@ -219,9 +241,12 @@ def main() -> int:
     catalogo = json.loads(args.fuentes.read_text(encoding="utf-8"))
     activas = [f for f in catalogo["fuentes"] if f.get("activo")]
     fuentes = [f for f in activas if f.get("metodo") == "rss"]
+    sin_contacto = [] if UA_CON_CONTACTO else [f for f in fuentes if "sec.gov/cgi-bin" in f["url"]]
+    fuentes = [f for f in fuentes if f not in sin_contacto]
     vigiladas = [] if args.sin_vigilancia else [f for f in activas if f.get("metodo") == "watch"]
     ciegas = [f for f in catalogo["fuentes"] if f.get("bloquea_bots") or (f.get("metodo") == "watch" and not f.get("activo"))]
-    temas = {"incluir": [], "excluir": []} if args.sin_temas else carga_temas(args.temas)
+    temas_ruta = args.temas or ruta_temas()
+    temas = {"incluir": [], "excluir": []} if args.sin_temas else carga_temas(temas_ruta)
     ahora = datetime.now(timezone.utc)
     desde = ahora - timedelta(hours=args.horas)
 
@@ -230,6 +255,7 @@ def main() -> int:
         vistos = json.loads(ESTADO.read_text(encoding="utf-8"))
 
     candidatos: list[dict] = []
+    en_esta_pasada: set[str] = set()  # la misma pieza puede salir en dos feeds del mismo publisher
     errores: list[str] = []
     with ThreadPoolExecutor(max_workers=12) as pool:
         futuros = [pool.submit(descarga, f) for f in fuentes]
@@ -242,10 +268,11 @@ def main() -> int:
             for e in entradas:
                 if e["fecha"] and e["fecha"] < desde:
                     continue
-                if e["url"] in vistos:
+                if e["url"] in vistos or canonica(e["url"]) in en_esta_pasada:
                     continue
                 if not pasa_temas(e, fuente, temas):
                     continue
+                en_esta_pasada.add(canonica(e["url"]))
                 candidatos.append({**e, "fuente": fuente})
                 n += 1
                 if n >= args.max_por_fuente:
@@ -262,7 +289,8 @@ def main() -> int:
             for fut in as_completed([pool.submit(vigila, f) for f in vigiladas]):
                 fuente, enlaces, error = fut.result()
                 if error:
-                    errores.append(f"{fuente['id']}: {error}")
+                    if not fuente.get("bloquea_bots"):  # las que bloquean robots ya salen en la lista de búsqueda dirigida
+                        errores.append(f"{fuente['id']}: {error}")
                     continue
                 actuales = [canonica(e["url"]) for e in enlaces]
                 if fuente["id"] not in referencia:
@@ -290,6 +318,12 @@ def main() -> int:
               "",
               "Regla: tier 1 se puede enlazar; tier 2 solo sirve para descubrir y hay que ir a la fuente primaria antes de escribir.",
               ""]
+    if args.sin_temas:
+        lineas += ["Temas: sin filtro.", ""]
+    elif temas_ruta == TEMAS_EJEMPLO:
+        lineas += [f"Temas: los de ejemplo (tokenización, stablecoins, MiCA, pagos, custodia). Para usar los tuyos, copia `{TEMAS_EJEMPLO}` a `{DATOS / 'temas.json'}` y edítalo.", ""]
+    else:
+        lineas += [f"Temas: `{temas_ruta}`.", ""]
     tier_actual, cat_actual = None, None
     for c in candidatos:
         f = c["fuente"]
@@ -299,7 +333,7 @@ def main() -> int:
         if f["categoria"] != cat_actual:
             cat_actual = f["categoria"]
             lineas += [f"### {cat_actual}", ""]
-        fecha = c["fecha"].strftime("%Y-%m-%d") if c["fecha"] else "sin fecha"
+        fecha = c["fecha"].strftime("%Y-%m-%d") if c["fecha"] else "sin fecha, nuevo desde la última pasada"
         lineas.append(f"- **{f['publisher']}** · {fecha} · [{c['titulo']}]({c['url']})")
         if c["resumen"]:
             lineas.append(f"  {c['resumen'][:220].strip()}")
@@ -309,11 +343,19 @@ def main() -> int:
         lineas += ["", "## Para búsqueda web dirigida (sin RSS o bloquean robots)", "",
                    "Estas fuentes no se pueden escanear. Si el día viene flojo, buscar a mano «<publisher> + tema + últimos días» y validar la URL primaria.", ""]
         lineas += [f"- {f['publisher']} · {f['url']}" for f in ciegas]
+    if sin_contacto:
+        lineas += ["", "## Fuentes que piden configuración", "",
+                   "EDGAR (la base de registros de la SEC) solo responde si el radar se identifica con un nombre y un correo. Para activarla: `export RADAR_USER_AGENT=\"Nombre Apellido correo@dominio.com\"`.", ""]
+        lineas += [f"- {f['publisher']} · {f['url']}" for f in sin_contacto]
     if errores:
         lineas += ["", "## Fuentes sin respuesta", ""] + [f"- {e}" for e in sorted(errores)]
 
-    salida = args.salida or (RAIZ / "estado" / f"radar-{ahora.strftime('%Y-%m-%d')}.md")
+    salida = args.salida or (DATOS / f"radar-{ahora.strftime('%Y-%m-%d')}.md")
     salida.parent.mkdir(parents=True, exist_ok=True)
+    if not candidatos and salida.exists() and not args.salida:
+        # Segunda pasada del día sin nada nuevo: se conserva el informe de la primera.
+        print(f"Nada nuevo desde la última pasada. El informe de hoy sigue en {salida}")
+        return 0
     salida.write_text("\n".join(lineas) + "\n", encoding="utf-8")
 
     if not args.sin_estado:

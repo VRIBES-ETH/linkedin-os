@@ -10,7 +10,7 @@
 | `publisher` | Quién publica |
 | `tier` | 1 = fuente primaria (se puede enlazar y citar). 2 = prensa, wires o agregador (solo para descubrir: antes de escribir hay que ir a la fuente primaria) |
 | `categoria` | Familia: `regulacion_*`, `macro_*`, `filings_*`, `research_cripto`, `tokenizacion_rwa`, `publisher_corporativo`, `seguridad_compliance`, `infraestructura`, `organismo`, `consultora`, `banco`, `wires`, `discovery_*` |
-| `metodo` | `rss` (lectura del feed) o `watch` (sin RSS: el radar vigila la página y avisa de enlaces nuevos; la primera pasada solo fija la referencia en `estado/vigilancia.json`) |
+| `metodo` | `rss` (lectura del feed) o `watch` (sin RSS: el radar vigila la página y avisa de enlaces nuevos; la primera pasada solo fija la referencia en `~/.linkedin-os/vigilancia.json`) |
 | `uso` | `enlazable` o `solo_descubrimiento`, derivado del tier |
 | `palabras_clave` | Si no está vacío, solo pasan las entradas que contienen alguna (para feeds corporativos muy generalistas) |
 | `activo` | `false` deja la fuente en el catálogo pero fuera del escaneo |

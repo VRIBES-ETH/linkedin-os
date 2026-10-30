@@ -10,21 +10,28 @@ Every morning `/radar` reads what regulators, central banks, issuers and researc
 
 ## Install
 
-```bash
-git clone https://github.com/VRIBES-ETH/linkedin-os.git ~/.claude/plugins/local/linkedin-os
+Inside Claude Code, run these two commands:
+
+```
+/plugin marketplace add VRIBES-ETH/linkedin-os
+/plugin install linkedin-os@linkedin-os
 ```
 
-Open Claude Code and run `/radar`. That is it. The scanner is plain Python 3 with no dependencies.
+Restart Claude Code and run `/radar`. That is it. The scanner is plain Python 3 with no dependencies.
 
-Optional: copy `cliente/temas.example.json` to `cliente/temas.json` and edit the keyword lists to narrow the radar to your topics.
+The first run uses example topics (tokenisation, stablecoins, MiCA, payments, custody). To use yours, copy `cliente/temas.example.json` to `~/.linkedin-os/temas.json` and edit the keyword lists, or just ask Claude to do it after the first `/radar`. Reports and state live in `~/.linkedin-os/`, so plugin updates never touch them.
+
+The SEC only answers clients that identify themselves. To include its filings, set `export RADAR_USER_AGENT="Your Name you@domain.com"` before opening Claude Code.
+
+Without Claude Code, the scanner runs on its own: `python3 scripts/radar.py` from a clone of this repository.
 
 ## What you get
 
 | Piece | What it does |
 | --- | --- |
-| `/radar` | Scans the catalogue, writes `estado/radar-YYYY-MM-DD.md`, then proposes up to three angles with fact, primary source, why now, and a suggested format. Tier 2 items are never proposed until the primary source is located. |
+| `/radar` | Scans the catalogue, writes `~/.linkedin-os/radar-YYYY-MM-DD.md`, then proposes up to three angles with fact, primary source, why now, and a suggested format. Tier 2 items are never proposed until the primary source is located. |
 | `fuentes/fuentes.json` | **95 verified sources** with tier, category, method and language: SEC, CFTC, OCC, ESMA, DG FISMA, FCA, PRA, FINMA, HKMA, CNMV, CVM, ECB, Fed, BoE, Banco de España, BIS, FSB, IMF, OMFIF, Tether, Circle, Coinbase Institutional, Fireblocks, Securitize, Glassnode, Messari, Galaxy, Kaiko, Coin Metrics, 21Shares, Pantera, a16z crypto, Allium, RWA.xyz, Chainalysis, TRM Labs, McKinsey, BCG, Citi Institute, JPMorgan Kinexys and more. Validated by hand between May and October 2026 for a daily digital-assets briefing. |
-| `scripts/radar.py` | Deterministic scanner. 46 RSS feeds plus 20 pages without RSS watched by link diff. Dedupes against what you already saw. Lists the sources that block robots so you can search them by hand. |
+| `scripts/radar.py` | Deterministic scanner. 45 RSS feeds plus 21 pages without RSS watched by link diff. Dedupes against what you already saw. Lists the sources that block robots so you can search them by hand. |
 | `hooks/` | Two guards that run before Claude writes or executes anything: a Spanish (Spain) copy lint that blocks em dashes, AI tells, missing accents and non-peninsular lexicon; and a Publer delete guard, because the Publer API delete ignores ids and wipes the whole queue. |
 | `publer/GOTCHAS.md` | Sixteen hard-won rules about the Publer API, in Spanish. |
 
@@ -38,7 +45,7 @@ Check the feed responds with dated entries, decide the tier by the rule above (n
 
 ## Want the full editorial system?
 
-The radar finds. It does not write. The complete system (voice kit built in a guided interview, writing layers with a 14-test anti-AI audit, infographic and carousel rendering, Publer scheduling with confirmation) is a paid install with a two-hour onboarding session. Details at [blockcha-in.com](https://blockcha-in.com).
+The radar finds. It does not write. The complete system (voice kit built in a guided interview, writing layers with a 14-test anti-AI audit, infographic and carousel rendering, Publer scheduling with confirmation) is a paid install with a two-hour onboarding session. Details at [blockcha-in.com/linkedin-os](https://blockcha-in.com/linkedin-os).
 
 Scheduling runs on Publer. Sign up at [publer.com/vribes](https://publer.com/vribes) for 10 % off, or add `VRIBES` under Settings, "Referred by".
 
