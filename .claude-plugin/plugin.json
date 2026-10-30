@@ -1,7 +1,7 @@
 {
   "name": "linkedin-os",
   "version": "0.2.0",
-  "description": "Verified-source radar for finance and tech executives: what regulators, central banks, issuers and research houses published, with primary sources, inside Claude Code.",
+  "description": "Verified-source radar for finance and tech executives: what regulators, central banks, issuers and research firms published, with primary sources, inside Claude Code.",
   "author": { "name": "Víctor Ribes" },
   "repository": "https://github.com/VRIBES-ETH/linkedin-os",
   "license": "MIT",

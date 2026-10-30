@@ -4,7 +4,7 @@
 
 **You don't need to be first. You need to know what to post.** A verified-source radar for finance and tech executives, running inside Claude Code.
 
-Every morning `/radar` reads what regulators, central banks, issuers and research houses have actually published in the last 48 hours, flags the new reports with a direct link to the PDF, filters everything by your topics, and hands you three angles with the primary source attached. No trade press, no aggregators, no "I saw this on LinkedIn".
+Every morning `/radar` reads what regulators, central banks, issuers and research firms have actually published in the last 48 hours, flags the new reports with a direct link to the PDF, filters everything by your topics, and hands you three angles with the primary source attached. No trade press, no aggregators, no "I saw this on LinkedIn".
 
 ![Radar output for one day](docs/radar-example.png)
 
@@ -31,7 +31,7 @@ Without Claude Code, the scanner runs on its own: `python3 scripts/radar.py` fro
 | --- | --- |
 | `/radar` | Scans both catalogues, writes `~/.linkedin-os/radar-YYYY-MM-DD.md` with new reports first, then proposes up to three angles with fact, primary source, why now, and a suggested format. Tier 2 items are never proposed until the primary source is located. |
 | `fuentes/fuentes.json` | **95 verified sources** with tier, category, method and language: SEC, CFTC, OCC, ESMA, DG FISMA, FCA, PRA, FINMA, HKMA, CNMV, CVM, ECB, Fed, BoE, Banco de España, BIS, FSB, IMF, OMFIF, Tether, Circle, Coinbase Institutional, Fireblocks, Securitize, Glassnode, Messari, Galaxy, Kaiko, Coin Metrics, 21Shares, Pantera, a16z crypto, Allium, RWA.xyz, Chainalysis, TRM Labs, McKinsey, BCG, Citi Institute, JPMorgan Kinexys and more. Validated by hand between May and October 2026 for a daily digital-assets briefing. |
-| `fuentes/research.json` | **32 research houses, consultancies, think tanks and supervisors that publish reports**: OECD, IOSCO, FATF, EBA, ESRB, WTO, AFME, BlackRock Investment Institute, ARK Invest, EY, KPMG, Deloitte, CoinShares, Anchorage Digital, Paxos, Ondo, Talos, GSR, Nansen, Dealroom, Wharton and more. The radar opens each new report and links the PDF directly when the page has one. |
+| `fuentes/research.json` | **32 report sources**: supervisors, think tanks, consultancies and research firms that publish reports: OECD, IOSCO, FATF, EBA, ESRB, WTO, AFME, BlackRock Investment Institute, ARK Invest, EY, KPMG, Deloitte, CoinShares, Anchorage Digital, Paxos, Ondo, Talos, GSR, Nansen, Dealroom, Wharton and more. The radar opens each new report and links the PDF directly when the page has one. |
 | `scripts/radar.py` | Deterministic scanner. 51 RSS feeds plus 46 pages and sitemaps watched by link diff (a sitemap with dates reports from day one; a plain page starts reporting on day two). Dedupes against what you already saw. Lists the sources that block robots so you can search them by hand. |
 | `hooks/` | Two guards that run before Claude writes or executes anything: a Spanish (Spain) copy lint that blocks em dashes, AI tells, missing accents and non-peninsular lexicon; and a Publer delete guard, because the Publer API delete ignores ids and wipes the whole queue. |
 | `publer/GOTCHAS.md` | Sixteen hard-won rules about the Publer API, in Spanish. |

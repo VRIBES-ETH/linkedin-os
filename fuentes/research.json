@@ -2,7 +2,7 @@
   "_meta": {
     "version": "0.1",
     "fecha": "2026-10-30",
-    "origen": "casas de research, consultoras, think tanks y organismos que publican informes, validadas a mano entre julio y octubre de 2026",
+    "origen": "fuentes de informes: organismos, think tanks, consultoras y firmas de análisis que publican informes, validadas a mano entre julio y octubre de 2026",
     "regla_tiers": "la misma que fuentes.json: tier 1 se puede enlazar; tier 2 solo sirve para descubrir",
     "metodo": "rss = feed; watch = página o sitemap vigilados por diferencia de enlaces (con sitemap y lastmod, la primera pasada ya avisa de lo publicado dentro de la ventana); url_include y url_exclude filtran rutas; tema_regex filtra título y resumen en organismos generalistas"
   },

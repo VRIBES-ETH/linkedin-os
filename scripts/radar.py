@@ -383,7 +383,7 @@ def main() -> int:
     p.add_argument("--horas", type=int, default=48)
     p.add_argument("--salida", type=Path)
     p.add_argument("--fuentes", type=Path, default=FUENTES)
-    p.add_argument("--research", type=Path, default=RESEARCH, help="catálogo de casas de research e informes")
+    p.add_argument("--research", type=Path, default=RESEARCH, help="catálogo de las 32 fuentes de informes")
     p.add_argument("--sin-research", action="store_true", help="omite el catálogo de research")
     p.add_argument("--temas", type=Path, default=None, help="por defecto ~/.linkedin-os/temas.json o, si no existe, los temas de ejemplo")
     p.add_argument("--max-por-fuente", type=int, default=5)

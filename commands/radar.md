@@ -1,5 +1,5 @@
 ---
-description: Escanea las fuentes verificadas y las casas de research (informes con PDF) y propone sobre qué publicar hoy (3 ángulos con fuente primaria)
+description: Escanea las fuentes verificadas y las 32 fuentes de informes (con su PDF) y propone sobre qué publicar hoy (3 ángulos con fuente primaria)
 allowed-tools: Bash, Read, WebFetch
 ---
 

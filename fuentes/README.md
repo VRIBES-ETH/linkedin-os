@@ -1,6 +1,6 @@
 # Fuentes verificadas
 
-`fuentes.json` es el catálogo de fuentes que el radar consulta cada día. Son las mismas que alimentan desde mayo de 2026 un boletín diario de activos digitales y finanzas: reguladores, bancos centrales, instituciones, emisores, casas de research y unas pocas cabeceras de prensa para descubrir. Cada una se validó a mano antes de entrar.
+`fuentes.json` es el catálogo de fuentes que el radar consulta cada día. Son las mismas que alimentan desde mayo de 2026 un boletín diario de activos digitales y finanzas: reguladores, bancos centrales, instituciones, emisores, firmas de análisis y unas pocas cabeceras de prensa para descubrir. Cada una se validó a mano antes de entrar.
 
 ## Campos
 
@@ -41,3 +41,7 @@ MAS, AMF, JFSA, ASIC, IOSCO, EBA, NYDFS, FMI (notas), Banque de France, DTCC, Eu
 1. Comprobar que el feed responde y que las entradas traen fecha y enlace.
 2. Decidir tier con la regla de arriba, no por prestigio de la cabecera.
 3. Añadirla con `activo: true` y la fecha en `nota`.
+
+## research.json
+
+`research.json` reúne las 32 fuentes de informes: organismos, think tanks, consultoras y firmas de análisis que publican informes, papers y estudios. Mismos campos que `fuentes.json`, más `tema_regex` (expresión regular sobre título y resumen, para organismos generalistas como la EBA o la OMC). Las páginas vigiladas pueden ser un sitemap: con `url_include` y fecha en el sitemap, el radar avisa desde la primera pasada. El radar abre cada informe nuevo y enlaza el PDF directo cuando la página lo trae.
