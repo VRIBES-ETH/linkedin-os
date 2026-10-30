@@ -61,4 +61,4 @@ The radar finds. It does not write. The complete system (voice kit built in a gu
 
 ## Licence
 
-Code under MIT. The source catalogue `fuentes/fuentes.json` under CC BY 4.0: use it anywhere, credit Víctor Ribes.
+Code under MIT (`LICENSE`). The source catalogues, `fuentes/fuentes.json` and `fuentes/research.json`, under CC BY 4.0 (`fuentes/LICENSE`): use them anywhere, credit Víctor Ribes.
