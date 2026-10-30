@@ -408,14 +408,15 @@
     {
       "id": "ledger_insights",
       "publisher": "Ledger Insights",
-      "tier": 1,
+      "tier": 2,
       "categoria": "discovery_crypto_institutional",
       "metodo": "rss",
       "url": "https://www.ledgerinsights.com/feed/",
       "idioma": "en",
-      "uso": "enlazable",
+      "uso": "solo_descubrimiento",
       "palabras_clave": [],
-      "activo": true
+      "activo": true,
+      "nota": "2026-10-30: pasa a tier 2: es prensa especializada, cuenta el hecho pero no lo produce"
     },
     {
       "id": "blockworks_main",
